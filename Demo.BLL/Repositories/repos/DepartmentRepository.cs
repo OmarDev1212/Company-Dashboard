@@ -35,7 +35,7 @@ namespace Demo.BLL.Repositories.repos
         public Department GetDepartmentById(int id)
         {
             return _context.Departments.Find(id);
-        }
+        }   
 
         public int UpdateDepartment(Department department)
         {

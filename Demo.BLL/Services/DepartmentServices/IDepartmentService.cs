@@ -13,8 +13,8 @@ namespace Demo.BLL.Services.DepartmentServices
         public IEnumerable<DepartmentDto> GetAllDepartments();
         public DepartmentDetailsDto GetDepartmentById(int id);
         public int AddDepartment(AddDepartmentDto department);
-        public int UpdateDepartment(UpdateDepartmentDto department); 
+        public int UpdateDepartment(UpdateDepartmentDto department);
 
-        public int DeleteDepartment(int id);
+        public bool DeleteDepartment(int id);
     }
 }

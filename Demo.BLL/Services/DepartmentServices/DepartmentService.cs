@@ -37,12 +37,15 @@ namespace Demo.BLL.Services.DepartmentServices
         {
           return  _departmentRepository.UpdateDepartment(department.ToEntity());
         }
-        public int DeleteDepartment(int id)
+        public bool DeleteDepartment(int id)
         {
             var department = _departmentRepository.GetDepartmentById(id);
-            if (department is null) return -1;
+            if (department is null) return false;
             else
-               return _departmentRepository.DeleteDepartment(department);
-        }
+            {
+                int res=_departmentRepository.DeleteDepartment(department);
+                return res>0?true:false;
+            }
+        }       
     }
 }

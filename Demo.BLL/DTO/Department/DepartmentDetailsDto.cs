@@ -18,5 +18,6 @@ namespace Demo.BLL.DTO.Department
         public int CreatedBy { get; set; }
         public int ModifiedBy { get; set; }
         public bool IsDeleted { get; set; }
+        public DateOnly LastModifiedOn { get; set;   }
     }
 }

@@ -14,5 +14,7 @@ namespace Demo.BLL.DTO.Department
         public string? Description { get; set; }
         [Display(Name = "Date Of Creation")]
         public DateOnly DateOfCreation { get; set; }
+        public int CreatedBy { get; set; }        
+        public int LastModifiedBy { get; set; }   
     }
 }

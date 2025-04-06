@@ -37,8 +37,9 @@ namespace Demo.BLL.Mapping
                 Name = department.Name,
                 CreatedBy = department.CreatedBy,
                 IsDeleted = department.IsDeleted,
-                ModifiedBy = department.LastModifiedBy
-
+                ModifiedBy = department.LastModifiedBy,
+                LastModifiedOn= DateOnly.FromDateTime(department.LastModifiedOn.Value)
+                
             };
             return DepartmentDtoToReturn;
         }
@@ -51,7 +52,9 @@ namespace Demo.BLL.Mapping
                 Name = department.Name,
                 Code = department.Code,
                 Description = department.Description,
-                CreatedOn = department.DateOfCreation.ToDateTime(TimeOnly.MinValue)
+                CreatedOn = department.DateOfCreation.ToDateTime(TimeOnly.MinValue),
+                CreatedBy=1,
+                LastModifiedBy=1
             };
             return departmentToreturn;
         }
@@ -64,7 +67,8 @@ namespace Demo.BLL.Mapping
                 Name = department.Name,
                 Code = department.Code,
                 Description = department.Description,
-                CreatedOn = department.DateOfCreation.ToDateTime(TimeOnly.MinValue)
+                CreatedOn = department.DateOfCreation.ToDateTime(TimeOnly.MinValue),
+                LastModifiedBy = 1
             };
             return departmentToreturn;
         }

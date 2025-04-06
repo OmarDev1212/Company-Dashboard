@@ -1,5 +1,6 @@
 using Demo.BLL.Repositories.interfaces;
 using Demo.BLL.Repositories.repos;
+using Demo.BLL.Services.DepartmentServices;
 using Demo.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,8 @@ namespace Demo.MVC
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
             #endregion
 
