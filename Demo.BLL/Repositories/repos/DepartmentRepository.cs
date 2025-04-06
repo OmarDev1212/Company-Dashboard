@@ -10,15 +10,8 @@ using System.Threading.Tasks;
 
 namespace Demo.BLL.Repositories.repos
 {
-    public class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository(ApplicationDbContext _context) : IDepartmentRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public DepartmentRepository(ApplicationDbContext context)
-        {
-            _context = context; //ask CLR to create object from class DbContext implicitly
-        }
-
         public int AddDepartment(Department department)
         {
             _context.Add(department);
