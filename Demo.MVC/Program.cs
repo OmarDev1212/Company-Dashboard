@@ -1,3 +1,4 @@
+using Demo.BLL.Profiles;
 using Demo.BLL.Repositories.interfaces;
 using Demo.BLL.Repositories.repos;
 using Demo.BLL.Services.DepartmentServices;
@@ -22,7 +23,7 @@ namespace Demo.MVC
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
             #endregion
 
 

@@ -12,7 +12,7 @@ namespace Demo.BLL.Services.DepartmentServices
 {
     public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
     {
-
+            
         public int AddDepartment(AddDepartmentDto department)
         {
             return _departmentRepository.AddEntity(department.ToEntity());
@@ -30,7 +30,7 @@ namespace Demo.BLL.Services.DepartmentServices
             var department=_departmentRepository.GetEntityById(id);
             //if (department == null) return null;
             //return department.ToDepartmentDetailsDto();
-            return department==null?null: department.ToDepartmentDetailsDto();
+            return department?.ToDepartmentDetailsDto();
         }
         public int UpdateDepartment(UpdateDepartmentDto department)
         {
@@ -40,11 +40,9 @@ namespace Demo.BLL.Services.DepartmentServices
         {
             var department = _departmentRepository.GetEntityById(id);
             if (department is null) return false;
-            else
-            {
                 int res=_departmentRepository.DeleteEntity(department);
-                return res>0?true:false;
-            }
+                return res > 0;
+            
         }       
     }
 }

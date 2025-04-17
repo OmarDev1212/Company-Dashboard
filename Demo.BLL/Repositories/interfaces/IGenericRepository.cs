@@ -15,7 +15,7 @@ namespace Demo.BLL.Repositories.interfaces
                                                                                     // IReadOnlyList used only for read and no need for iteration used in API as returned data is json
         public TEntity GetEntityById(int id);
         public int UpdateEntity(TEntity entity); //int to return no of affected rows in database
-        public int AddEntity(TEntity TEntity);
-        public int DeleteEntity(TEntity TEntity);
+        public int AddEntity(TEntity entity);
+        public int DeleteEntity(TEntity entity);
     }
 }
