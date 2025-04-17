@@ -131,7 +131,7 @@ namespace Demo.MVC.Controllers
                 else
                 {
                     _logger.LogError(ex.Message);
-                    return View("ErrorView",ex);
+                    return RedirectToAction("Error","Home");
                 }
             }   
         }
