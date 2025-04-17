@@ -2,6 +2,7 @@ using Demo.BLL.Profiles;
 using Demo.BLL.Repositories.interfaces;
 using Demo.BLL.Repositories.repos;
 using Demo.BLL.Services.DepartmentServices;
+using Demo.BLL.Services.EmployeeServices;
 using Demo.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,8 @@ namespace Demo.MVC
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             #endregion
 
