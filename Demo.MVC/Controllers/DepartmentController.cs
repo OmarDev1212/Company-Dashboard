@@ -96,6 +96,44 @@ namespace Demo.MVC.Controllers
                 }
             }
             return View(department);
+
+        }
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var department = _departmentService.GetDepartmentById(id);
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ConfirmDelete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+               var isdeleted= _departmentService.DeleteDepartment(id);
+                if (isdeleted)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty,"Department is not deleted");
+                    return RedirectToAction(nameof(Delete), new { id });
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return RedirectToAction(nameof(Delete), new { id });
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return View("ErrorView",ex);
+                }
+            }   
         }
     }
 }
