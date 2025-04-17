@@ -10,37 +10,37 @@ using System.Threading.Tasks;
 
 namespace Demo.BLL.Repositories.repos
 {
-    public class DepartmentRepository(ApplicationDbContext _context) : IDepartmentRepository
+    public class DepartmentRepository(ApplicationDbContext context) : GenericRepository<Department>(context), IDepartmentRepository
     {
         public int AddDepartment(Department department)
         {
-            _context.Add(department);
-            return _context.SaveChanges();
+            context.Add(department);
+            return context.SaveChanges();
         }
 
         public int DeleteDepartment(Department department)
         {
-                _context.Remove(department);
-            return _context.SaveChanges();
+                context.Remove(department);
+            return context.SaveChanges();
         }
 
         public IEnumerable<Department> GetAllDepartments(bool withTracking=false)
         {
             if(withTracking)
-                return _context.Departments.ToList();
+                return context.Departments.ToList();
             else
-                return _context.Departments.AsNoTracking().ToList();
+                return context.Departments.AsNoTracking().ToList();
         }
 
         public Department GetDepartmentById(int id)
         {
-            return _context.Departments.Find(id);
+            return context.Departments.Find(id);
         }   
 
         public int UpdateDepartment(Department department)
         {
-            _context.Update(department);
-            return _context.SaveChanges();
+            context.Update(department);
+            return context.SaveChanges();
         }
     }
 }
