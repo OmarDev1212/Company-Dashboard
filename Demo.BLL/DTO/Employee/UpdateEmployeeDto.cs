@@ -32,8 +32,7 @@ namespace Demo.BLL.DTO.Employee
         public string EmployeeGender { get; set; }
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; set; }
-        [Display(Name = "Hiring Date")]
-        public DateOnly HiringDate { get; set; }
+        public DateOnly HireDate { get; set; }
         
     }
 }

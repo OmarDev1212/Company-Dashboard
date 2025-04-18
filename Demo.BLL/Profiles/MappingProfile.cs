@@ -19,9 +19,14 @@ namespace Demo.BLL.Profiles
 
             CreateMap<UpdateEmployeeDto, Employee>()
                 .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
-                .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
+                .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType))
+                .ForMember(e=>e.HireDate,dest=>dest.MapFrom(dest=>dest.HireDate));
 
             CreateMap<Employee, EmployeeDto>()
+                .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
+                .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
+
+            CreateMap<Employee, EmployeeDetailsDto>()
                 .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
                 .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
         }

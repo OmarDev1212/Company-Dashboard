@@ -16,12 +16,13 @@ namespace Demo.BLL.DTO.Employee
         [Range(24, 50)]
         public int Age { get; set; }
         public bool IsActive { get; set; }
+        [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
         [EmailAddress]
         public string Email { get; set; }
         public string EmployeeGender { get; set; }
         public string EmployeeType { get; set; }
         [Display(Name = "Hiring Date")]
-        public DateOnly HiringDate { get; set; }
+        public DateOnly HireDate { get; set; }
     }
 }

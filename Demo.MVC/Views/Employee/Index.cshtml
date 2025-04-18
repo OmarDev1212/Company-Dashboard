@@ -18,7 +18,7 @@
                 <th>@Html.DisplayNameFor(d => d.Email)</th>
                 <th>@Html.DisplayNameFor(d => d.EmployeeGender)</th>
                 <th>@Html.DisplayNameFor(d => d.EmployeeType)</th>
-                <th>@Html.DisplayNameFor(d => d.HiringDate)</th>
+                <th>@Html.DisplayNameFor(d => d.HireDate)</th>
 
                 <th>Details </th>
                 <th>Update</th>
@@ -32,12 +32,17 @@
                 <tr>
                     <td>@Html.DisplayFor(d => Employee.Name)</td>
                     <td>@Html.DisplayFor(d => Employee.Age)</td>
-                    <td>@Html.DisplayFor(d => Employee.IsActive)</td>
+                    <td>
+                        @(Employee.IsActive
+                            ? (Html.Raw("<i class='fa-solid fa-check text-success'></i>"))
+                            : (Html.Raw("<i class='fa-solid fa-xmark text-danger'></i>")))
+                    </td>   
+
                     <td>@Html.DisplayFor(d => Employee.Salary)</td>
                     <td>@Html.DisplayFor(d => Employee.Email)</td>
                     <td>@Html.DisplayFor(d => Employee.EmployeeGender)</td>
                     <td>@Html.DisplayFor(d => Employee.EmployeeType)</td>
-                    <td>@Html.DisplayFor(d => Employee.HiringDate)</td>
+                    <td>@Html.DisplayFor(d => Employee.HireDate)</td>
 
                     <td>
                         <a class="btn btn-primary" asp-action="Details" asp-route-id="@Employee.Id">
