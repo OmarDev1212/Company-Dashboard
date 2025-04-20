@@ -11,6 +11,19 @@ namespace Demo.MVC.Controllers
     {
         public IActionResult Index()
         {
+            //Binding => Sending data from action to view's Dictionary [one way direction] view can't send response to action
+
+            //ViewData 
+            //Explicit Casting is needed as value of dictionary is object
+            string data= ViewData["Message"]  as string;
+
+            //ViewBag => Dynamic property
+            //CLR know data type in RunTime 
+            //No Need For Explicit casting
+            ViewBag.Message = "Hello from viewBag";
+            
+            
+            TempData.Keep(); //keeps the data with index view if next action needed it.
             var emps = _employeeService.GetAllEmployees();
             return View(emps);
         }
@@ -36,9 +49,16 @@ namespace Demo.MVC.Controllers
                 {
                     var result = _employeeService.CreateNewEmployee(model);
                     if (result > 0)
+                    {
+                        //temp data send data from action to action by dictionary which is different from the dictionary of viewbag and viewdata 
+
+                        TempData["Message"] = "Employee created successfully";
                         return RedirectToAction(nameof(Index));
+
+                    }
                     else
                     {
+                        TempData["Message"] = "Employee is not created successfully";
                         ModelState.AddModelError(string.Empty, "Employee is not  created successfully");
                         return View(model);
                     }
