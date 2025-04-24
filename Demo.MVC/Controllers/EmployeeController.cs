@@ -9,24 +9,35 @@ namespace Demo.MVC.Controllers
                                     ILogger<EmployeeController> _logger,
                                     IWebHostEnvironment _environment) : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string? searchValue)
         {
             //Binding => Sending data from action to view's Dictionary [one way direction] view can't send response to action
 
             //ViewData 
             //Explicit Casting is needed as value of dictionary is object
-            string data=ViewData["Message"]  as string;
+            string data = ViewData["Message"] as string;
 
             //ViewBag => Dynamic property
             //CLR know data type in RunTime 
             //No Need For Explicit casting
             ViewBag.Message = "Hello from viewBag";
-            
-            
+
+
             TempData.Keep(); //keeps the data with index view if next action needed it.
-            var emps = _employeeService.GetAllEmployees();
-            return View(emps);
+            IEnumerable<EmployeeDto> emps;
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                emps = _employeeService.GetAllEmployees();
+                return View(emps);
+            }
+            else
+            {
+                emps = _employeeService.SearchEmployeesByName(searchValue);
+                return View(emps);
+            }
         }
+
+        
         public IActionResult Details(int? id)
         {
 
@@ -59,7 +70,7 @@ namespace Demo.MVC.Controllers
                         Name = model.Name,
                         PhoneNumber = model.PhoneNumber,
                         Salary = model.Salary,
-                        DepartmentId=model.DepartmentId
+                        DepartmentId = model.DepartmentId
                     };
 
                     var result = _employeeService.CreateNewEmployee(mappedEmployee);
@@ -93,7 +104,7 @@ namespace Demo.MVC.Controllers
         {
             if (id is null) return BadRequest();
             var emp = _employeeService.GetById(id.Value);
-            if(emp is null) return NotFound();
+            if (emp is null) return NotFound();
             var empToReturn = new EmployeeViewModel()
             {
                 Address = emp.Address,
@@ -104,8 +115,8 @@ namespace Demo.MVC.Controllers
                 HireDate = emp.HireDate,
                 IsActive = emp.IsActive,
                 Name = emp.Name,
-                PhoneNumber=emp.PhoneNumber,
-                Salary=emp.Salary,
+                PhoneNumber = emp.PhoneNumber,
+                Salary = emp.Salary,
 
             };
 
@@ -115,13 +126,13 @@ namespace Demo.MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, UpdateEmployeeDto model)
         {
-          if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View(model);
             else
             {
                 try
                 {
-                   var result= _employeeService.UpdateEmployee(model);
+                    var result = _employeeService.UpdateEmployee(model);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                 }
@@ -136,7 +147,8 @@ namespace Demo.MVC.Controllers
             }
         }
 
-        public IActionResult Delete(int? id) {
+        public IActionResult Delete(int? id)
+        {
 
             if (id is null) return BadRequest();
             var employee = _employeeService.GetById(id.Value);
@@ -173,6 +185,7 @@ namespace Demo.MVC.Controllers
                 }
             }
         }
+
 
     }
 }

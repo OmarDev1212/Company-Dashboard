@@ -40,6 +40,12 @@ namespace Demo.BLL.Services.EmployeeServices
             return _mapper.Map<Employee, EmployeeDetailsDto>(employee);
         }
 
+        public IEnumerable<EmployeeDto> SearchEmployeesByName(string name)
+        {
+           var employees= _employeeRepository.SearchByName(name);
+            return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+        }
+
         public int UpdateEmployee(UpdateEmployeeDto employee)
         {
             var mappedEmp = _mapper.Map<UpdateEmployeeDto, Employee>(employee);

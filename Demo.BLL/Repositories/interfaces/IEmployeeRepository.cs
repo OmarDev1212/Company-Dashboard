@@ -9,6 +9,6 @@ namespace Demo.BLL.Repositories.interfaces
 {
     public interface IEmployeeRepository:IGenericRepository<Employee>
     {
-        
+        public IQueryable<Employee> SearchByName(string name);   
     }
 }

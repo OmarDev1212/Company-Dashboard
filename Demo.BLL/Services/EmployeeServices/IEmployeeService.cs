@@ -10,6 +10,7 @@ namespace Demo.BLL.Services.EmployeeServices
     public interface IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployees();
+        public IEnumerable<EmployeeDto> SearchEmployeesByName(string name);
         public EmployeeDetailsDto GetById(int id);
         public int CreateNewEmployee(CreatedEmployeeDto employee);
         public int UpdateEmployee(UpdateEmployeeDto employee);

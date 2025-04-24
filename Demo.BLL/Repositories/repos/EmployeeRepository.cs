@@ -9,7 +9,11 @@ using System.Threading.Tasks;
 
 namespace Demo.BLL.Repositories.repos
 {
-    public class EmployeeRepository(ApplicationDbContext dbContext):GenericRepository<Employee>(dbContext), IEmployeeRepository
+    public class EmployeeRepository(ApplicationDbContext _dbContext) : GenericRepository<Employee>(_dbContext), IEmployeeRepository
     {
+        public IQueryable<Employee> SearchByName(string name)
+        {
+            return _dbContext.Employees.Where(e => e.Name.ToLower().Contains(name.ToLower()));
+        }
     }
 }
