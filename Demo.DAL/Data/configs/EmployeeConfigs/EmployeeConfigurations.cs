@@ -29,6 +29,13 @@ namespace Demo.DAL.Data.configs.EmployeeConfigs
             //builder.Property(d => d.CreatedOn).HasDefaultValueSql("GetDate()");//stay the same after insert [can be set manually] [creation date]
             //builder.Property(d => d.LastModifiedOn).HasComputedColumnSql("GetDate()");//recalculated automatically [not manually set] [Updated date]
 
+           
+            
+            builder.HasOne(e=>e.Department)
+                .WithMany(e=>e.Employees)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
             base.Configure(builder);
         }
     }

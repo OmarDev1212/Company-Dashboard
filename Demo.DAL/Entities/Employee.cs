@@ -33,5 +33,9 @@ namespace Demo.DAL.Entities
         public DateOnly HireDate { get; set; }
         public EmployeeType EmployeeType  { get; set; }
         public EmployeeGender EmployeeGender { get; set; }
+
+        
+        public Department Department { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }
