@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Demo.DAL.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.MVC.ViewModels
 {
-    public class EditEmployeeViewModel
+    public class EmployeeViewModel 
     {
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
         [MinLength(5, ErrorMessage = "Min length should be 5 characters")]
@@ -27,5 +28,7 @@ namespace Demo.MVC.ViewModels
         public string EmployeeType { get; set; }
         [Display(Name = "Hiring Date")]
         public DateOnly HireDate { get; set; }
+        public Department? Department { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

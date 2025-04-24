@@ -33,6 +33,6 @@ namespace Demo.BLL.DTO.Employee
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; set; }
         public DateOnly HireDate { get; set; }
-        
+        public int? DepartmentId { get; set; }
     }
 }

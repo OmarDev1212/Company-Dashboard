@@ -35,7 +35,7 @@ namespace Demo.DAL.Entities
         public EmployeeGender EmployeeGender { get; set; }
 
         
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
         public int? DepartmentId { get; set; }
     }
 }

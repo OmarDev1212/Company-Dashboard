@@ -24,5 +24,6 @@ namespace Demo.BLL.DTO.Employee
         public string EmployeeType { get; set; }
         [Display(Name = "Hiring Date")]
         public DateOnly HireDate { get; set; }
+        public string? Department { get; set; }
     }
 }

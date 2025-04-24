@@ -36,6 +36,7 @@
                 <th>@Html.DisplayNameFor(d => d.IsActive)</th>
                 <th>@Html.DisplayNameFor(d => d.Salary)</th>
                 <th>@Html.DisplayNameFor(d => d.Email)</th>
+                <th>@Html.DisplayNameFor(d => d.Department)</th>
                 <th>@Html.DisplayNameFor(d => d.EmployeeGender)</th>
                 <th>@Html.DisplayNameFor(d => d.EmployeeType)</th>
                 <th>@Html.DisplayNameFor(d => d.HireDate)</th>
@@ -60,6 +61,9 @@
 
                     <td>@Html.DisplayFor(d => Employee.Salary)</td>
                     <td>@Html.DisplayFor(d => Employee.Email)</td>
+                    <td>
+                        @(Employee.Department??"No Department")
+                             
                     <td>@Html.DisplayFor(d => Employee.EmployeeGender)</td>
                     <td>@Html.DisplayFor(d => Employee.EmployeeType)</td>
                     <td>@Html.DisplayFor(d => Employee.HireDate)</td>

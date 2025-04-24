@@ -1,6 +1,9 @@
-﻿@model EditEmployeeViewModel
+﻿@using Demo.BLL.Services.DepartmentServices
+@model EmployeeViewModel
+@inject  IDepartmentService departmentService
 @{
     var types = new SelectList(Enum.GetValues(typeof(EmployeeType)));
+    var departments = new SelectList(departmentService.GetAllDepartments(), dataValueField: "Id", dataTextField: "Name");
 }
 <div class="form-group mb-3 col-6">
     <label class="form-label" asp-for="Name"></label>
@@ -43,21 +46,25 @@
 </div>
 <div class="form-group mb-3 col-6">
     <label class="col-form-label">Gender</label><br />
-
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" asp-for="EmployeeGender" value="Male" />
-        <label class="form-check-label">Male</label>
-    </div>
-
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" asp-for="EmployeeGender" value="Female" />
-        <label class="form-check-label">Female</label>
-    </div>
+    @foreach (var gender in Enum.GetValues(typeof(EmployeeGender)))
+    {
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" asp-for="EmployeeGender" value="@gender" />
+            <label class="form-check-label">@gender</label>
+        </div>
+    }
+    <span asp-validation-for="EmployeeGender" class="text-danger"></span>
 </div>
 
 <div class="form-group mb-3 col-6">
     <label class="col-form-label" asp-for="EmployeeType"></label>
     <select asp-for="EmployeeType" asp-items="types" class="form-control">
         <option value="@null">--Select Employee Type--</option>
+    </select>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="col-form-label" asp-for="Department"></label>
+    <select asp-for="DepartmentId" asp-items="departments" class="form-control">
+        <option value="@null">--Select Department--</option>
     </select>
 </div>

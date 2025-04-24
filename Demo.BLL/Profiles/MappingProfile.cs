@@ -14,21 +14,24 @@ namespace Demo.BLL.Profiles
         public MappingProfile()
         {
             CreateMap<CreatedEmployeeDto, Employee>()
-                .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
-                .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
+                .ForMember(dest => dest.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
+                .ForMember(dest => dest.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
 
             CreateMap<UpdateEmployeeDto, Employee>()
                 .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
                 .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType))
-                .ForMember(e=>e.HireDate,dest=>dest.MapFrom(dest=>dest.HireDate));
+                .ForMember(e => e.HireDate, dest => dest.MapFrom(dest => dest.HireDate));
 
             CreateMap<Employee, EmployeeDto>()
-                .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
-                .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
+                .ForMember(dest => dest.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
+                .ForMember(dest => dest.EmployeeType, t => t.MapFrom(t => t.EmployeeType))
+                .ForMember(dest => dest.Department, src => src.MapFrom(src => src.Department.Name));
 
             CreateMap<Employee, EmployeeDetailsDto>()
-                .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
-                .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType));
+                .ForMember(dest => dest.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
+                .ForMember(dest => dest.EmployeeType, t => t.MapFrom(t => t.EmployeeType))
+                .ForMember(dest => dest.Department, src => src.MapFrom(src => src.Department.Name));
+
         }
     }
 }

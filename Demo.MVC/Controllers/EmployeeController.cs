@@ -15,7 +15,7 @@ namespace Demo.MVC.Controllers
 
             //ViewData 
             //Explicit Casting is needed as value of dictionary is object
-            string data= ViewData["Message"]  as string;
+            string data=ViewData["Message"]  as string;
 
             //ViewBag => Dynamic property
             //CLR know data type in RunTime 
@@ -41,13 +41,28 @@ namespace Demo.MVC.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedEmployeeDto model)
+        public IActionResult Create(EmployeeViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = _employeeService.CreateNewEmployee(model);
+                    var mappedEmployee = new CreatedEmployeeDto()
+                    {
+                        Address = model.Address,
+                        Age = model.Age,
+                        Email = model.Email,
+                        EmployeeGender = model.EmployeeGender,
+                        EmployeeType = model.EmployeeType,
+                        HireDate = model.HireDate,
+                        IsActive = model.IsActive,
+                        Name = model.Name,
+                        PhoneNumber = model.PhoneNumber,
+                        Salary = model.Salary,
+                        DepartmentId=model.DepartmentId
+                    };
+
+                    var result = _employeeService.CreateNewEmployee(mappedEmployee);
                     if (result > 0)
                     {
                         //temp data send data from action to action by dictionary which is different from the dictionary of viewbag and viewdata 
@@ -79,7 +94,7 @@ namespace Demo.MVC.Controllers
             if (id is null) return BadRequest();
             var emp = _employeeService.GetById(id.Value);
             if(emp is null) return NotFound();
-            var empToReturn = new EditEmployeeViewModel()
+            var empToReturn = new EmployeeViewModel()
             {
                 Address = emp.Address,
                 Age = emp.Age,
@@ -91,6 +106,7 @@ namespace Demo.MVC.Controllers
                 Name = emp.Name,
                 PhoneNumber=emp.PhoneNumber,
                 Salary=emp.Salary,
+
             };
 
             return View(empToReturn);
