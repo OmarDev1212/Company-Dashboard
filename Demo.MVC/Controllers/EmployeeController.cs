@@ -78,13 +78,13 @@ namespace Demo.MVC.Controllers
                     {
                         //temp data send data from action to action by dictionary which is different from the dictionary of viewbag and viewdata 
 
-                        TempData["Message"] = "Employee created successfully";
+                        TempData["SuccessMessage"] = "Employee created successfully";
                         return RedirectToAction(nameof(Index));
 
                     }
                     else
                     {
-                        TempData["Message"] = "Employee is not created successfully";
+                        TempData["ErrorMessage"] = "Employee is not created successfully";
                         ModelState.AddModelError(string.Empty, "Employee is not  created successfully");
                         return View(model);
                     }
@@ -92,9 +92,15 @@ namespace Demo.MVC.Controllers
                 catch (Exception ex)
                 {
                     if (_environment.IsDevelopment())
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         ModelState.AddModelError(string.Empty, ex.Message);
+                    }
                     else
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         _logger.LogError(ex.Message);
+                    }
                 }
             }
             return View(model);
@@ -134,14 +140,24 @@ namespace Demo.MVC.Controllers
                 {
                     var result = _employeeService.UpdateEmployee(model);
                     if (result > 0)
+                    {
+                        TempData["SuccessMessage"] = "Employee's data was updated successfully";
+
                         return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (Exception ex)
                 {
                     if (_environment.IsDevelopment())
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         ModelState.AddModelError(string.Empty, ex.Message);
+                    }
                     else
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         _logger.LogError(ex.Message);
+                    }
                 }
                 return View(model);
             }
@@ -164,9 +180,13 @@ namespace Demo.MVC.Controllers
             {
                 var isdeleted = _employeeService.DeleteEmployee(id.Value);
                 if (isdeleted)
+                {
+                    TempData["SuccessMessage"] = "Employee's data deleted successfully";
                     return RedirectToAction(nameof(Index));
+                }
                 else
                 {
+                    TempData["ErrorMessage"] = "Something went wrong";
                     ModelState.AddModelError(string.Empty, "Employee is not deleted");
                     return RedirectToAction(nameof(Delete), new { id });
                 }
@@ -175,11 +195,13 @@ namespace Demo.MVC.Controllers
             {
                 if (_environment.IsDevelopment())
                 {
+                    TempData["ErrorMessage"] = "Something went wrong";
                     ModelState.AddModelError(string.Empty, ex.Message);
                     return RedirectToAction(nameof(Delete), new { id });
                 }
                 else
                 {
+                    TempData["ErrorMessage"] = "Something went wrong";
                     _logger.LogError(ex.Message);
                     return RedirectToAction("Error", "Home");
                 }

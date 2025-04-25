@@ -1,0 +1,20 @@
+﻿@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    @* Show success message *@
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <text>toastr.success("@successMessage");</text>
+    }
+
+    @* Show error message *@
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <text>toastr.error("@errorMessage");</text>
+    }
+    });
+</script>

@@ -37,6 +37,7 @@ namespace Demo.MVC.Controllers
                     var result = _departmentService.AddDepartment(department);
                     if (result > 0)
                     {
+                        TempData["SuccessMessage"] = "Department added successfully";
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -45,9 +46,16 @@ namespace Demo.MVC.Controllers
                 catch (Exception ex)
                 {
                     if (_environment.IsDevelopment())
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
+
                         ModelState.AddModelError(string.Empty, ex.Message);
+                    }
                     else
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         _logger.LogError(ex.Message);
+                    }
                 }
 
             }
@@ -80,19 +88,27 @@ namespace Demo.MVC.Controllers
                     var result = _departmentService.UpdateDepartment(department);
                     if (result > 0)
                     {
+                        TempData["SuccessMessage"] = "Department updated successfully";
                         return RedirectToAction(nameof(Index));
                     }
                     else
                     {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         return View(department);
                     }
                 }
                 catch (Exception ex)
                 {
                     if (_environment.IsDevelopment())
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         ModelState.AddModelError(string.Empty, ex.Message);
+                    }
                     else
+                    {
+                        TempData["ErrorMessage"] = "Something went wrong";
                         _logger.LogError(ex.Message);
+                    }
                 }
             }
             return View(department);
@@ -114,9 +130,13 @@ namespace Demo.MVC.Controllers
             {
                var isdeleted= _departmentService.DeleteDepartment(id);
                 if (isdeleted)
+                {
+                    TempData["SuccessMessage"] = "Department was deleted successfully";
                     return RedirectToAction(nameof(Index));
+                }
                 else
                 {
+                    TempData["ErrorMessage"] = "Something went wrong";
                     ModelState.AddModelError(string.Empty,"Department is not deleted");
                     return RedirectToAction(nameof(Delete), new { id });
                 }
@@ -125,11 +145,13 @@ namespace Demo.MVC.Controllers
             {
                 if (_environment.IsDevelopment())
                 {
+                    TempData["ErrorMessage"] = "Something went wrong";
                     ModelState.AddModelError(string.Empty, ex.Message);
                     return RedirectToAction(nameof(Delete), new { id });
                 }
                 else
                 {
+                    TempData["ErrorMessage"] = "Something went wrong";
                     _logger.LogError(ex.Message);
                     return RedirectToAction("Error","Home");
                 }
