@@ -1,13 +1,8 @@
-﻿using Demo.BLL.Repositories.interfaces;
-using Demo.DAL.Data;
+﻿using Demo.DAL.Data;
 using Demo.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Demo.DAL.Repositories.interfaces;
 
-namespace Demo.BLL.Repositories.repos
+namespace Demo.DAL.Repositories.repos
 {
     public class EmployeeRepository(ApplicationDbContext _dbContext) : GenericRepository<Employee>(_dbContext), IEmployeeRepository
     {

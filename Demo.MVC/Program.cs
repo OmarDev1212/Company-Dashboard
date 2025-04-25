@@ -1,6 +1,6 @@
 using Demo.BLL.Profiles;
-using Demo.BLL.Repositories.interfaces;
-using Demo.BLL.Repositories.repos;
+using Demo.DAL.Repositories.interfaces;
+using Demo.DAL.Repositories.repos;
 using Demo.BLL.Services.DepartmentServices;
 using Demo.BLL.Services.EmployeeServices;
 using Demo.DAL.Data;
@@ -22,10 +22,24 @@ namespace Demo.MVC
             {
                 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //Service Life time
+
+            //scoped => creating new object from service per request for example => busniess Logic classes 
+
+            //transient => creating new object from service per operation for example => Email
+
+            //singleton => creating only one object from service per Application life time for example => logging ,caching
+            
+           
+           
+
+
+
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             #endregion
 

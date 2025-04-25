@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BLL.Repositories.interfaces
+namespace Demo.DAL.Repositories.interfaces
 {
     
     public interface IDepartmentRepository:IGenericRepository<Department>

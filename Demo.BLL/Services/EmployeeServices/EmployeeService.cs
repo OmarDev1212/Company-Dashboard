@@ -1,55 +1,53 @@
 ﻿using AutoMapper;
 using Demo.BLL.DTO.Employee;
-using Demo.BLL.Repositories.interfaces;
 using Demo.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Demo.DAL.Repositories.interfaces;
 
 namespace Demo.BLL.Services.EmployeeServices
 {
-    public class EmployeeService(IEmployeeRepository _employeeRepository, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(/*IEmployeeRepository _employeeRepository*/ IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
     {
         public int CreateNewEmployee(CreatedEmployeeDto employee)
         {
             var mappedEmployee = _mapper.Map<CreatedEmployeeDto, Employee>(employee);
-            return _employeeRepository.AddEntity(mappedEmployee);
+             _unitOfWork.EmployeeRepository.AddEntity(mappedEmployee);
+            return _unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmployee(int id)//soft delete
         {
-            var employee = _employeeRepository.GetEntityById(id);
+            var employee = _unitOfWork.EmployeeRepository.GetEntityById(id);
             if(employee == null) return false;
             employee.IsDeleted=true;
-            return _employeeRepository.UpdateEntity(employee)>0;
+             _unitOfWork.EmployeeRepository.UpdateEntity(employee);
+            return _unitOfWork.SaveChanges() > 0;
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
-            var employees = _employeeRepository.GetAll();
+            var employees = _unitOfWork.EmployeeRepository.GetAll();
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
 
         }
 
         public EmployeeDetailsDto GetById(int id)
         {
-            var employee = _employeeRepository.GetEntityById(id);
+            var employee = _unitOfWork.EmployeeRepository.GetEntityById(id);
             if (employee == null) return null;
             return _mapper.Map<Employee, EmployeeDetailsDto>(employee);
         }
 
         public IEnumerable<EmployeeDto> SearchEmployeesByName(string name)
         {
-           var employees= _employeeRepository.SearchByName(name);
+           var employees= _unitOfWork.EmployeeRepository.SearchByName(name);
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
         }
 
         public int UpdateEmployee(UpdateEmployeeDto employee)
         {
             var mappedEmp = _mapper.Map<UpdateEmployeeDto, Employee>(employee);
-            return _employeeRepository.UpdateEntity(mappedEmp);
+             _unitOfWork.EmployeeRepository.UpdateEntity(mappedEmp);
+            return _unitOfWork.SaveChanges();
         }
     }
 }

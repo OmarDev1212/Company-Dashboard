@@ -1,14 +1,9 @@
-﻿using Demo.BLL.Repositories.interfaces;
-using Demo.DAL.Data;
+﻿using Demo.DAL.Data;
 using Demo.DAL.Entities;
+using Demo.DAL.Repositories.interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Demo.BLL.Repositories.repos
+namespace Demo.DAL.Repositories.repos
 {
     public class DepartmentRepository(ApplicationDbContext context) : GenericRepository<Department>(context), IDepartmentRepository
     {
@@ -37,10 +32,9 @@ namespace Demo.BLL.Repositories.repos
             return context.Departments.Find(id);
         }   
 
-        public int UpdateDepartment(Department department)
+        public void UpdateDepartment(Department department)
         {
             context.Update(department);
-            return context.SaveChanges();
         }
     }
 }

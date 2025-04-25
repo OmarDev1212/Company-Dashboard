@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BLL.Repositories.interfaces
+namespace Demo.DAL.Repositories.interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
@@ -14,8 +14,8 @@ namespace Demo.BLL.Repositories.interfaces
                                                                                      //ICollection used for need for Opertions like add,update,delete
                                                                                     // IReadOnlyList used only for read and no need for iteration used in API as returned data is json
         public TEntity GetEntityById(int id);
-        public int UpdateEntity(TEntity entity); //int to return no of affected rows in database
-        public int AddEntity(TEntity entity);
-        public int DeleteEntity(TEntity entity);
+        public void UpdateEntity(TEntity entity); //int to return no of affected rows in database
+        public void AddEntity(TEntity entity);
+        public void DeleteEntity(TEntity entity);
     }
 }
