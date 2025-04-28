@@ -124,7 +124,6 @@ namespace Demo.MVC.Controllers
                 Name = emp.Name,
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
-
             };
 
             return View(empToReturn);

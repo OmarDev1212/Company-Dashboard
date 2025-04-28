@@ -6,7 +6,7 @@ using Demo.DAL.Repositories.interfaces;
 
 namespace Demo.BLL.Services.EmployeeServices
 {
-    public class EmployeeService(/*IEmployeeRepository _employeeRepository*/ IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : IEmployeeService
+    public class EmployeeService(/*IEmployeeRepository _employeeRepository*/ IUnitOfWork _unitOfWork, IMapper _mapper, IAttachmentService _attachmentService) : IEmployeeService
     {
         public int CreateNewEmployee(CreatedEmployeeDto employee)
         {
@@ -15,16 +15,18 @@ namespace Demo.BLL.Services.EmployeeServices
             {
                 mappedEmployee.ImageName = _attachmentService.UploadAttachment(employee.Image, "images");
             }
-             _unitOfWork.EmployeeRepository.AddEntity(mappedEmployee);
+            _unitOfWork.EmployeeRepository.AddEntity(mappedEmployee);
             return _unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmployee(int id)//soft delete
         {
             var employee = _unitOfWork.EmployeeRepository.GetEntityById(id);
-            if(employee == null) return false;
-            employee.IsDeleted=true;
-             _unitOfWork.EmployeeRepository.UpdateEntity(employee);
+            if (employee == null) return false;
+            employee.IsDeleted = true;
+            _attachmentService.DeleteAttachment(employee.ImageName, "images");
+            //employee.ImageName= null;  //if you want to delete from db
+            _unitOfWork.EmployeeRepository.UpdateEntity(employee);
             return _unitOfWork.SaveChanges() > 0;
         }
 
@@ -44,14 +46,14 @@ namespace Demo.BLL.Services.EmployeeServices
 
         public IEnumerable<EmployeeDto> SearchEmployeesByName(string name)
         {
-           var employees= _unitOfWork.EmployeeRepository.SearchByName(name);
+            var employees = _unitOfWork.EmployeeRepository.SearchByName(name);
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
         }
 
         public int UpdateEmployee(UpdateEmployeeDto employee)
         {
             var mappedEmp = _mapper.Map<UpdateEmployeeDto, Employee>(employee);
-             _unitOfWork.EmployeeRepository.UpdateEntity(mappedEmp);
+            _unitOfWork.EmployeeRepository.UpdateEntity(mappedEmp);
             return _unitOfWork.SaveChanges();
         }
     }

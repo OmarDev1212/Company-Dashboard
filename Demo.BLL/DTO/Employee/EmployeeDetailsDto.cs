@@ -39,5 +39,6 @@ namespace Demo.BLL.DTO.Employee
         public int LastModifiedBy { get; set; }
         public DateTime LastModifiedOn { get; set; }
         public string? Department { get; set; }
+        public string? ImageName { get; set; }
     }
 }
