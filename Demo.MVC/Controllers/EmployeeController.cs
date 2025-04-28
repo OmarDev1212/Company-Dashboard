@@ -70,7 +70,8 @@ namespace Demo.MVC.Controllers
                         Name = model.Name,
                         PhoneNumber = model.PhoneNumber,
                         Salary = model.Salary,
-                        DepartmentId = model.DepartmentId
+                        DepartmentId = model.DepartmentId,
+                        Image=model.Image
                     };
 
                     var result = _employeeService.CreateNewEmployee(mappedEmployee);

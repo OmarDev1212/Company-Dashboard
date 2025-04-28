@@ -1,15 +1,20 @@
 ﻿using AutoMapper;
 using Demo.BLL.DTO.Employee;
+using Demo.BLL.Services.AttachmentService;
 using Demo.DAL.Entities;
 using Demo.DAL.Repositories.interfaces;
 
 namespace Demo.BLL.Services.EmployeeServices
 {
-    public class EmployeeService(/*IEmployeeRepository _employeeRepository*/ IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(/*IEmployeeRepository _employeeRepository*/ IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : IEmployeeService
     {
         public int CreateNewEmployee(CreatedEmployeeDto employee)
         {
             var mappedEmployee = _mapper.Map<CreatedEmployeeDto, Employee>(employee);
+            if (employee.Image is not null)
+            {
+                mappedEmployee.ImageName = _attachmentService.UploadAttachment(employee.Image, "images");
+            }
              _unitOfWork.EmployeeRepository.AddEntity(mappedEmployee);
             return _unitOfWork.SaveChanges();
         }
