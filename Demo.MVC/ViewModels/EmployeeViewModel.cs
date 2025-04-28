@@ -31,5 +31,6 @@ namespace Demo.MVC.ViewModels
         public Department? Department { get; set; }
         public int? DepartmentId { get; set; }
         public IFormFile? Image { get; set; }
+        public string? ImageName { get; set; }
     }
 }

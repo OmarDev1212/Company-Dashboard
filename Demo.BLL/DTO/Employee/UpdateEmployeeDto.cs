@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,5 +35,6 @@ namespace Demo.BLL.DTO.Employee
         public string EmployeeType { get; set; }
         public DateOnly HireDate { get; set; }
         public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

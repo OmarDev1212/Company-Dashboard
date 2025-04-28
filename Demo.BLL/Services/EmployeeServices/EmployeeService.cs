@@ -53,6 +53,22 @@ namespace Demo.BLL.Services.EmployeeServices
         public int UpdateEmployee(UpdateEmployeeDto employee)
         {
             var mappedEmp = _mapper.Map<UpdateEmployeeDto, Employee>(employee);
+            if (employee.Image != null)
+            {
+                // Delete the OLD image (not the new uploaded file's name)
+                if (!string.IsNullOrEmpty(employee.Image.FileName))
+                {
+                    _attachmentService.DeleteAttachment(employee.Image.FileName, "images");
+                }
+
+                // Upload the NEW image
+                mappedEmp.ImageName = _attachmentService.UploadAttachment(employee.Image, "images");
+            }
+            else
+            {
+                // No new image uploaded, keep the existing image
+                mappedEmp.ImageName = employee.Image.FileName;
+            }
             _unitOfWork.EmployeeRepository.UpdateEntity(mappedEmp);
             return _unitOfWork.SaveChanges();
         }

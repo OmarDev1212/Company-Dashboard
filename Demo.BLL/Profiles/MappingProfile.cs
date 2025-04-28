@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Demo.BLL.DTO.Employee;
 using Demo.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.BLL.Profiles
 {
@@ -20,7 +15,8 @@ namespace Demo.BLL.Profiles
             CreateMap<UpdateEmployeeDto, Employee>()
                 .ForMember(e => e.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))
                 .ForMember(e => e.EmployeeType, t => t.MapFrom(t => t.EmployeeType))
-                .ForMember(e => e.HireDate, dest => dest.MapFrom(dest => dest.HireDate));
+                .ForMember(e => e.HireDate, dest => dest.MapFrom(dest => dest.HireDate))
+                .ForMember(e => e.ImageName, dest => dest.MapFrom(e => e.Image.FileName ?? "NotFound"));
 
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(dest => dest.EmployeeGender, g => g.MapFrom(g => g.EmployeeGender))

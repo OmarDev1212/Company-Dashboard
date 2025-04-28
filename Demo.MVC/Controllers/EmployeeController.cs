@@ -124,6 +124,7 @@ namespace Demo.MVC.Controllers
                 Name = emp.Name,
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
+                ImageName=emp.ImageName
             };
 
             return View(empToReturn);
@@ -137,7 +138,7 @@ namespace Demo.MVC.Controllers
             else
             {
                 try
-                {
+                {                        
                     var result = _employeeService.UpdateEmployee(model);
                     if (result > 0)
                     {
