@@ -5,6 +5,7 @@ using Demo.BLL.Services.DepartmentServices;
 using Demo.BLL.Services.EmployeeServices;
 using Demo.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using Demo.BLL.Services.AttachmentService;
 
 namespace Demo.MVC
 {
@@ -36,11 +37,12 @@ namespace Demo.MVC
 
 
             //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             #endregion
 
 
