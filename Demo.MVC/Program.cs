@@ -6,6 +6,8 @@ using Demo.BLL.Services.EmployeeServices;
 using Demo.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Demo.BLL.Services.AttachmentService;
+using Microsoft.AspNetCore.Identity;
+using Demo.DAL.Entities;
 
 namespace Demo.MVC
 {
@@ -43,6 +45,9 @@ namespace Demo.MVC
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             #endregion
 
 
