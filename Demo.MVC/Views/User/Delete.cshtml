@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Are you sure to delete</h1>
+
+<partial name="PartialViews/_DetailsDeleteUser"></partial>
+
+<div class="mt-4">
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    <a asp-action="Index" class="btn btn-outline-dark">Back To list</a>
+</div>
+
+

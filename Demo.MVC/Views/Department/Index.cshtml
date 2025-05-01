@@ -28,7 +28,7 @@
                     <td>@Html.DisplayFor(d => department.Description)</td>
                     <td>@Html.DisplayFor(d => department.DateOfCreation)</td>
 
-                    <partial name="_Buttons" model=@department.Id></partial>
+                    <partial name="_Buttons" model=@department.Id.ToString()></partial>
                 </tr>
             }
         </tbody>
