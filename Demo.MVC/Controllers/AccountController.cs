@@ -3,6 +3,7 @@ using Demo.MVC.Helpers;
 using Demo.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using System.Threading.Tasks;
 
 namespace Demo.MVC.Controllers
@@ -96,7 +97,7 @@ namespace Demo.MVC.Controllers
                 ModelState.AddModelError("", "Invalid Email");
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword", "Account",
-                new { Email = user.Email, token = token }, protocol:Request.Scheme);
+                new { email = user.Email, token = token }, Request.Scheme);
             var email = new Email()
             {
                 To = model.Email,
@@ -107,8 +108,30 @@ namespace Demo.MVC.Controllers
             return RedirectToAction(nameof(CheckYourInbox));
         }
 
+        public IActionResult ResetPassword(string email, string token)
+        {
+            TempData["email"] = email;
+            TempData["token"] = token;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var email = TempData["email"] as string;
+            var token = TempData["token"] as string;
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null) ModelState.AddModelError("", "Invalid EMail");
+            var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+            return View(model);
+
+        }
 
 
-        
     }
 }
