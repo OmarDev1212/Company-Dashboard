@@ -1,16 +1,12 @@
-﻿using Demo.BLL.DTO.Employee;
-using Demo.DAL.Entities;
+﻿using Demo.DAL.Entities;
 using Demo.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Demo.MVC.Controllers
 {
-    public class UserController(UserManager<ApplicationUser> _userManager, IWebHostEnvironment _environment, ILogger<UserController> _logger) : Controller
+    public class UserController(UserManager<ApplicationUser> _userManager, IWebHostEnvironment _environment, ILogger<UserController> _logger, RoleManager<IdentityRole> _roleManager) : Controller
     {
         public async Task<IActionResult> Index(string? searchValue)
         {
@@ -18,7 +14,7 @@ namespace Demo.MVC.Controllers
             if (string.IsNullOrEmpty(searchValue))
             {
 
-                users = await _userManager.Users.Select(u =>
+                users = await _userManager.Users/*.Where(u=>u.UserName!=User.Identity.Name)*/.Select(u =>
                    new UserViewModel()
                    {
                        Id = u.Id,
@@ -33,7 +29,7 @@ namespace Demo.MVC.Controllers
             }
             else
             {
-                users = await _userManager.Users.Where(u => u.Email.Contains(searchValue)).Select(u =>
+                users = await _userManager.Users.Where(u => u.Email.Contains(searchValue)/*&&u.UserName!=User.Identity.Name*/).Select(u =>
                   new UserViewModel()
                   {
                       Id = u.Id,
@@ -87,6 +83,35 @@ namespace Demo.MVC.Controllers
             if (!ModelState.IsValid) return View(model);
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user is null) return NotFound();
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            // Reassign roles
+            var existingRoles = await _userManager.GetRolesAsync(user);
+
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, existingRoles);
+            if (!removeResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Failed to remove existing roles.");
+                return View(model);
+            }
+
+            if (model.Roles != null && model.Roles.Any())
+            {
+                // Convert role IDs to role names
+                var roleNames = await _roleManager.Roles
+                    .Where(r => model.Roles.Contains(r.Id))
+                    .Select(r => r.Name)
+                    .ToListAsync();
+
+                var addResult = await _userManager.AddToRolesAsync(user, roleNames);
+                if (!addResult.Succeeded)
+                {
+                    ModelState.AddModelError("", "Failed to assign new roles.");
+                    return View(model);
+                }
+            }
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {

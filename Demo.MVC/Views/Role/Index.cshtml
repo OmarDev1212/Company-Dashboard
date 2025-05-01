@@ -1,10 +1,11 @@
-﻿@model IEnumerable<UserViewModel>
+﻿@model IEnumerable<RoleViewModel>
 @{
     Layout = "_Layout";
 }
-<h1>All Users</h1>
+<h1>All Roles</h1>
 <br />
 <br />
+<a class="btn btn-primary" asp-controller="Role" asp-action="Create">Create Role</a>
 
 <div class="m-2">
     <form asp-action="index" class="row offset-2" method="get">
@@ -25,11 +26,8 @@
         <thead class="text-center">
             <tr>
                 <th>@Html.DisplayNameFor(d => d.Id)</th>
-                <th>@Html.DisplayNameFor(d => d.FirstName)</th>
-                <th>@Html.DisplayNameFor(d => d.LastName)</th>
-                <th>@Html.DisplayNameFor(d => d.PhoneNumber)</th>
-                <th>@Html.DisplayNameFor(d => d.Email)</th>
-                <th>@Html.DisplayNameFor(d => d.Roles)</th>
+                <th>@Html.DisplayNameFor(d => d.Name)</th>
+
                 <th>Details </th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -37,17 +35,13 @@
             </tr>
         </thead>
         <tbody class="text-center" id="tbody">
-            @foreach (var User in Model)
+            @foreach (var Role in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(d => User.Id)</td>
-                    <td>@Html.DisplayFor(d => User.FirstName)</td>
-                    <td>@Html.DisplayFor(d => User.LastName)</td>
-                    <td>@Html.DisplayFor(d => User.PhoneNumber)</td>
+                    <td>@Html.DisplayFor(d => Role.Id)</td>
+                    <td>@Html.DisplayFor(d => Role.Name)</td>
 
-                    <td>@Html.DisplayFor(d => User.Email)</td>
-                    <td>@string.Join(" ", User.Roles)</td>
-                    <partial name="_Buttons" model=@User.Id></partial>
+                    <partial name="_Buttons" model=@Role.Id></partial>
 
                 </tr>
             }
@@ -57,6 +51,6 @@
 else
 {
     <div class="alert alert-info mt-3">
-        <h2>No Users Found !!</h2>
+        <h2>No Roles Found !!</h2>
     </div>
 }
