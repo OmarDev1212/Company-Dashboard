@@ -1,28 +1,28 @@
-﻿using Demo.DAL.Data.configs.DepartmentConfigs;
-using Demo.DAL.Entities;
+﻿using Demo.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.DAL.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext(DbContextOptions options) :/*DbContext*/IdentityDbContext<ApplicationUser>(options)
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.ApplyConfiguration<Department>(new DeparmentConfigurations());
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users", "Security");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles", "Security");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles", "Security");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "Security");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "Security");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserCliams", "Security");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleCliams", "Security");
         }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

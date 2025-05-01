@@ -9,10 +9,10 @@ namespace Demo.DAL.Entities
     public class BaseEntity
     {
         public int Id { get; set; } //PK
-        public string CreatedBy  { get; set; }//userId
-        public string LastModifiedBy { get; set; } //Time of modification
+        public int CreatedBy  { get; set; }//userId who created record
+        public int LastModifiedBy { get; set; } //user who modified record
         public DateTime CreatedOn { get; set; }//Time Of Create 
-        public DateTime? LastModifiedOn { get; set; } //Automatically Calculated 
+        public DateTime? LastModifiedOn { get; set; } //Automatically Calculated => Time of modification 
         public bool IsDeleted { get; set; }//soft Delete
     }
 }

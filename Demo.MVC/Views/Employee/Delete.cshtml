@@ -1,0 +1,9 @@
+﻿@model EmployeeDetailsDto
+
+
+<partial name="PartialViews/_DetailsDeleteEmployee"></partial>
+
+<div class="mt-4">
+    <a asp-action="ConfirmDelete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    <a asp-action="Index" class="btn btn-outline-dark">Back To list</a>
+</div>
