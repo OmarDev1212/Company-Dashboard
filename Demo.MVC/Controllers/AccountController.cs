@@ -1,4 +1,5 @@
 ﻿using Demo.DAL.Entities;
+using Demo.MVC.Helpers;
 using Demo.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -78,8 +79,36 @@ namespace Demo.MVC.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-           await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }
+
+        public IActionResult ForgetPassword() => View();
+
+        public IActionResult CheckYourInbox() => View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendEmail(ForgetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user is null)
+                ModelState.AddModelError("", "Invalid Email");
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var link = Url.Action("ResetPassword", "Account",
+                new { Email = user.Email, token = token }, protocol:Request.Scheme);
+            var email = new Email()
+            {
+                To = model.Email,
+                Subject = "Reset Your Password",
+                Body = link
+            };
+            EmailSettings.SendEmail(email);
+            return RedirectToAction(nameof(CheckYourInbox));
+        }
+
+
+
+        
     }
 }
