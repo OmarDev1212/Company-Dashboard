@@ -75,5 +75,11 @@ namespace Demo.MVC.Controllers
             return View(model);
 
         }
+
+        public async Task<IActionResult> LogOut()
+        {
+           await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
+        }
     }
 }

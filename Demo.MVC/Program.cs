@@ -47,7 +47,8 @@ namespace Demo.MVC
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
             #endregion
 
 
