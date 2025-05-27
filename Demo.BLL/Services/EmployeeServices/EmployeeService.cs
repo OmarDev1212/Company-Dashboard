@@ -67,7 +67,7 @@ namespace Demo.BLL.Services.EmployeeServices
             else
             {
                 // No new image uploaded, keep the existing image
-                mappedEmp.ImageName = employee.Image.FileName;
+                mappedEmp.ImageName = employee.ExistingImageName;
             }
             _unitOfWork.EmployeeRepository.UpdateEntity(mappedEmp);
             return _unitOfWork.SaveChanges();

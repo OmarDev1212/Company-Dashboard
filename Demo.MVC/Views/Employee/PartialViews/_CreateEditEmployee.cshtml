@@ -14,7 +14,14 @@
     <label class="form-label" asp-for="Image"></label>
     <input asp-for="Image" class="form-control" />
     <span asp-validation-for="Image" class="text-danger"></span>
+
+    @if (Model.ImageName != null)
+    {
+        <small class="form-text text-muted">Current image: @System.IO.Path.GetFileName(Model.ImageName)</small>
+    }
 </div>
+<input type="hidden" asp-for="ExistingImageName" />
+
 <div class="form-group mb-3 col-6">
     <label class="form-label" asp-for="Email"></label>
     <input asp-for="Email" class="form-control" />

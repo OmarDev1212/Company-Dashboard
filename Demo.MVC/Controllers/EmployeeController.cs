@@ -37,7 +37,7 @@ namespace Demo.MVC.Controllers
             }
         }
 
-        
+
         public IActionResult Details(int? id)
         {
 
@@ -71,7 +71,7 @@ namespace Demo.MVC.Controllers
                         PhoneNumber = model.PhoneNumber,
                         Salary = model.Salary,
                         DepartmentId = model.DepartmentId,
-                        Image=model.Image
+                        Image = model.Image
                     };
 
                     var result = _employeeService.CreateNewEmployee(mappedEmployee);
@@ -124,45 +124,62 @@ namespace Demo.MVC.Controllers
                 Name = emp.Name,
                 PhoneNumber = emp.PhoneNumber,
                 Salary = emp.Salary,
-                ImageName=emp.ImageName
+                ImageName = emp.ImageName,
+                Image=emp.Image,
+                ExistingImageName = emp.ImageName
             };
 
             return View(empToReturn);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, UpdateEmployeeDto model)
+        public IActionResult Edit([FromRoute] int id, EmployeeViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-            else
+            try
             {
-                try
-                {                        
-                    var result = _employeeService.UpdateEmployee(model);
-                    if (result > 0)
-                    {
-                        TempData["SuccessMessage"] = "Employee's data was updated successfully";
-
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                catch (Exception ex)
+                var employeeDto = new UpdateEmployeeDto()
                 {
-                    if (_environment.IsDevelopment())
-                    {
-                        TempData["ErrorMessage"] = "Something went wrong";
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Something went wrong";
-                        _logger.LogError(ex.Message);
-                    }
+                    Id = id,
+                    Address = model.Address,
+                    Age = model.Age,
+                    Email = model.Email,
+                    Image = model.Image,
+                    DepartmentId = model.DepartmentId,
+                    EmployeeGender = model.EmployeeGender,
+                    EmployeeType = model.EmployeeType,
+                    HireDate = model.HireDate,
+                    IsActive = model.IsActive,
+                    Name=model.Name,
+                    PhoneNumber=model.PhoneNumber,
+                    Salary=model.Salary,
+                    ExistingImageName = model.ExistingImageName 
+                };
+                var result = _employeeService.UpdateEmployee(employeeDto);
+                if (result > 0)
+                {
+                    TempData["SuccessMessage"] = "Employee's data was updated successfully";
+
+                    return RedirectToAction(nameof(Index));
                 }
-                return View(model);
             }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    TempData["ErrorMessage"] = "Something went wrong";
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Something went wrong";
+                    _logger.LogError(ex.Message);
+                }
+            }
+            return View(model);
         }
+
 
         public IActionResult Delete(int? id)
         {
