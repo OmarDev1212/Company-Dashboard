@@ -36,5 +36,7 @@ namespace Demo.BLL.DTO.Employee
         public DateOnly HireDate { get; set; }
         public int? DepartmentId { get; set; }
         public IFormFile? Image { get; set; }
+        public string ImageName { get; set; }
+        public string? ExistingImageName { get; set; }
     }
 }
